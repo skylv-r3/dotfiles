@@ -199,6 +199,7 @@ set number
 set cursorline
 " set laststatus=2 " nvim default
 set cmdheight=1 " default
+set ambiwidth=double
 
 set list
 set listchars=tab:>_,trail:-,eol:$,extends:},precedes:{,nbsp:+
@@ -235,3 +236,13 @@ set modelines=3
 
 " <Leader>
 let mapleader = ","
+
+" Encodings
+set fileencodings=utf-8,cp932,euc-jp,utf-16le,latin1
+
+" cd Desktop
+if @% == ""
+  let $desktop = expand('$HOME/Desktop')
+  cd $desktop
+endif
+
