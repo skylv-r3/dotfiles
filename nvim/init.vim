@@ -34,6 +34,8 @@ if dein#load_state(s:dein_dir)
   call dein#add('PProvost/vim-ps1')
   call dein#add('mattn/vim-sl')
 
+  call dein#add('Shougo/deoplete.nvim')
+
   call dein#end()
   call dein#save_state()
 endif
@@ -172,6 +174,8 @@ function! s:defx_my_settings() abort
   \ defx#do_action('change_vim_cwd')
 endfunction
 
+" deoplete
+let g:deoplete#enable_at_startup = 1
 
 " ### Edit ###
 set autoindent
@@ -193,6 +197,11 @@ cnoremap <C-p> <Up>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
+
+noremap g<C-t> :tabnew<CR>
+noremap <C-Tab> gt
+noremap <C-S-Tab> gT
+
 
 " ### Display ###
 set number

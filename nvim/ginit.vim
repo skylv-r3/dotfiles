@@ -8,5 +8,6 @@ highlight NonText guifg=LightGray guibg=None
 highlight WhiteSpace guifg=LightGreen guibg=Orange
 "GuiFont! MyricaM M:h12
 GuiFont! 源ノ角ゴシック Code JP M:h10
+GuiTabline 0
 
 set mouse=a
