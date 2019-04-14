@@ -64,8 +64,6 @@ let g:airline_mode_map = {
   \ }
 
 " # Submode
-"noremap <C-w>- :sp<CR>
-"noremap <C-w><Bar> :vs<CR>
 let g:submode_keep_leaving_key = v:true
 call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
 call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
@@ -135,7 +133,7 @@ function! s:defx_my_settings() abort
   \ defx#do_action('new_multiple_files')
   nnoremap <silent><buffer><expr> C
   \ defx#do_action('toggle_columns',
-  \                'mark:filename:type:size:time')
+  \                'mark:indent:icon:filename:type:size:time')
   nnoremap <silent><buffer><expr> S
   \ defx#do_action('toggle_sort', 'time')
   nnoremap <silent><buffer><expr> d
@@ -174,6 +172,12 @@ function! s:defx_my_settings() abort
   \ defx#do_action('change_vim_cwd')
 endfunction
 
+noremap FZ :Defx <CR>
+noremap FX :Defx `expand('%:p:h')` -search=`expand('%:p')` <CR>
+noremap FV :Defx -split=vertical -winwidth=50 -direction=topleft <CR>
+noremap FC :Defx -split=vertical -winwidth=50 -direction=topleft
+  \ `expand('%:p:h')` -search=`expand('%:p')` <CR>
+
 " deoplete
 let g:deoplete#enable_at_startup = 1
 
@@ -202,6 +206,8 @@ noremap g<C-t> :tabnew<CR>
 noremap <C-Tab> gt
 noremap <C-S-Tab> gT
 
+noremap <C-w>_ :split<CR>
+noremap <C-w><Bar> :vsplit<CR>
 
 " ### Display ###
 set number
