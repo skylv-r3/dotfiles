@@ -30,11 +30,14 @@ if dein#load_state(s:dein_dir)
   call dein#add('vim-airline/vim-airline-themes')
   call dein#add('machakann/vim-highlightedyank')
   call dein#add('kana/vim-submode')
+  call dein#add('tpope/vim-surround')
 
   call dein#add('PProvost/vim-ps1')
+  call dein#add('mattn/emmet-vim')
   call dein#add('mattn/vim-sl')
 
   call dein#add('Shougo/deoplete.nvim')
+  call dein#add('Shougo/denite.nvim')
 
   call dein#end()
   call dein#save_state()
@@ -48,6 +51,11 @@ if dein#check_install()
 endif
 
 " ### Plugin Settings
+" prefix
+noremap [pluginprefix] <Nop>
+nmap <C-c> [pluginprefix]
+nmap <C-d> [pluginprefix]
+
 " # AirLine
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
@@ -68,11 +76,11 @@ let g:submode_keep_leaving_key = v:true
 call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
 call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
 call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
-call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
+call submode#enter_with('winsize', 'n', '', '<C-w>_', '<C-w>-')
 call submode#map('winsize', 'n', '', '>', '<C-w>>')
 call submode#map('winsize', 'n', '', '<', '<C-w><')
 call submode#map('winsize', 'n', '', '+', '<C-w>+')
-call submode#map('winsize', 'n', '', '-', '<C-w>-')
+call submode#map('winsize', 'n', '', '_', '<C-w>-')
 
 call submode#enter_with('winselect', 'n', '', '<C-w>h', '<C-w>h')
 call submode#enter_with('winselect', 'n', '', '<C-w>j', '<C-w>j')
@@ -109,77 +117,72 @@ call submode#map('xxx', 'n', 'r', 'x', '<Plug>(xxx)')
 autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
   " Define mappings
-  nnoremap <silent><buffer><expr> <CR>
-  \ defx#do_action('open')
-  nnoremap <silent><buffer><expr> c
-  \ defx#do_action('copy')
-  nnoremap <silent><buffer><expr> m
-  \ defx#do_action('move')
-  nnoremap <silent><buffer><expr> p
-  \ defx#do_action('paste')
-  nnoremap <silent><buffer><expr> l
-  \ defx#do_action('open')
-  nnoremap <silent><buffer><expr> E
-  \ defx#do_action('open', 'vsplit')
-  nnoremap <silent><buffer><expr> P
-  \ defx#do_action('open', 'pedit')
-  nnoremap <silent><buffer><expr> o
-  \ defx#do_action('open_or_close_tree')
-  nnoremap <silent><buffer><expr> K
-  \ defx#do_action('new_directory')
-  nnoremap <silent><buffer><expr> N
-  \ defx#do_action('new_file')
-  nnoremap <silent><buffer><expr> M
-  \ defx#do_action('new_multiple_files')
-  nnoremap <silent><buffer><expr> C
-  \ defx#do_action('toggle_columns',
-  \                'mark:indent:icon:filename:type:size:time')
-  nnoremap <silent><buffer><expr> S
-  \ defx#do_action('toggle_sort', 'time')
-  nnoremap <silent><buffer><expr> d
-  \ defx#do_action('remove')
-  nnoremap <silent><buffer><expr> r
-  \ defx#do_action('rename')
-  nnoremap <silent><buffer><expr> !
-  \ defx#do_action('execute_command')
-  nnoremap <silent><buffer><expr> x
-  \ defx#do_action('execute_system')
-  nnoremap <silent><buffer><expr> yy
-  \ defx#do_action('yank_path')
-  nnoremap <silent><buffer><expr> .
-  \ defx#do_action('toggle_ignored_files')
-  nnoremap <silent><buffer><expr> ;
-  \ defx#do_action('repeat')
-  nnoremap <silent><buffer><expr> h
-  \ defx#do_action('cd', ['..'])
-  nnoremap <silent><buffer><expr> ~
-  \ defx#do_action('cd')
-  nnoremap <silent><buffer><expr> q
-  \ defx#do_action('quit')
-  nnoremap <silent><buffer><expr> <Space>
-  \ defx#do_action('toggle_select') . 'j'
-  nnoremap <silent><buffer><expr> *
-  \ defx#do_action('toggle_select_all')
-  nnoremap <silent><buffer><expr> j
-  \ line('.') == line('$') ? 'gg' : 'j'
-  nnoremap <silent><buffer><expr> k
-  \ line('.') == 1 ? 'G' : 'k'
-  nnoremap <silent><buffer><expr> <C-l>
-  \ defx#do_action('redraw')
-  nnoremap <silent><buffer><expr> <C-g>
-  \ defx#do_action('print')
-  nnoremap <silent><buffer><expr> cd
-  \ defx#do_action('change_vim_cwd')
+  nnoremap <silent><buffer><expr> <CR>  defx#do_action('open')
+  nnoremap <silent><buffer><expr> c     defx#do_action('copy')
+  nnoremap <silent><buffer><expr> m     defx#do_action('move')
+  nnoremap <silent><buffer><expr> p     defx#do_action('paste')
+  nnoremap <silent><buffer><expr> l     defx#do_action('open')
+  nnoremap <silent><buffer><expr> E     defx#do_action('open', 'vsplit')
+  nnoremap <silent><buffer><expr> P     defx#do_action('open', 'pedit')
+  nnoremap <silent><buffer><expr> o     defx#do_action('open_or_close_tree')
+  nnoremap <silent><buffer><expr> K     defx#do_action('new_directory')
+  nnoremap <silent><buffer><expr> N     defx#do_action('new_file')
+  nnoremap <silent><buffer><expr> M     defx#do_action('new_multiple_files')
+  nnoremap <silent><buffer><expr> C     defx#do_action('toggle_columns',
+  \                                       'mark:indent:icon:filename:type:size:time')
+  nnoremap <silent><buffer><expr> S     defx#do_action('toggle_sort', 'time')
+  nnoremap <silent><buffer><expr> d     defx#do_action('remove')
+  nnoremap <silent><buffer><expr> r     defx#do_action('rename')
+  nnoremap <silent><buffer><expr> !     defx#do_action('execute_command')
+  nnoremap <silent><buffer><expr> x     defx#do_action('execute_system')
+  nnoremap <silent><buffer><expr> yy    defx#do_action('yank_path')
+  nnoremap <silent><buffer><expr> .     defx#do_action('toggle_ignored_files')
+  nnoremap <silent><buffer><expr> ;     defx#do_action('repeat')
+  nnoremap <silent><buffer><expr> h     defx#do_action('cd', ['..'])
+  nnoremap <silent><buffer><expr> ~     defx#do_action('cd')
+  nnoremap <silent><buffer><expr> q     defx#do_action('quit')
+  nnoremap <silent><buffer><expr> <Space> defx#do_action('toggle_select') . 'j'
+  nnoremap <silent><buffer><expr> *     defx#do_action('toggle_select_all')
+  nnoremap <silent><buffer><expr> j     line('.') == line('$') ? 'gg' : 'j'
+  nnoremap <silent><buffer><expr> k     line('.') == 1 ? 'G' : 'k'
+  nnoremap <silent><buffer><expr> <C-l> defx#do_action('redraw')
+  nnoremap <silent><buffer><expr> <C-g> defx#do_action('print')
+  nnoremap <silent><buffer><expr> cd    defx#do_action('change_vim_cwd')
 endfunction
 
-noremap FZ :Defx <CR>
-noremap FX :Defx `expand('%:p:h')` -search=`expand('%:p')` <CR>
-noremap FV :Defx -split=vertical -winwidth=50 -direction=topleft <CR>
-noremap FC :Defx -split=vertical -winwidth=50 -direction=topleft
-  \ `expand('%:p:h')` -search=`expand('%:p')` <CR>
+noremap <silent> [pluginprefix]<C-z> :Defx <CR>
+noremap <silent> [pluginprefix]<C-x> :Defx `expand('%:p:h')` -search=`expand('%:p')` <CR>
+noremap <silent> [pluginprefix]<C-v> :Defx -split=vertical -winwidth=50 -direction=topleft <CR>
+noremap <silent> [pluginprefix]<C-c> :Defx -split=vertical -winwidth=50 -direction=topleft
+  \                                    `expand('%:p:h')` -search=`expand('%:p')` <CR>
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
+
+" emmet-vim
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
+
+" denite
+call denite#custom#map('insert', '<esc>', '<denite:enter_mode:normal>', 'noremap')
+call denite#custom#map('normal', '<esc>', '<denite:quit>', 'noremap')
+call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('normal', '<C-n>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#map('normal', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#map('normal', '<C-CR>', '<denite:do_action:tabopen>', 'noremap')
+call denite#custom#map('insert', '<C-CR>', '<denite:do_action:tabopen>', 'noremap')
+call denite#custom#map('normal', '<S-CR>', '<denite:do_action:splitswitch>', 'noremap')
+call denite#custom#map('insert', '<S-CR>', '<denite:do_action:splitswitch>', 'noremap')
+call denite#custom#map('normal', '<C-l>', '<denite:do_action:vsplitswitch>', 'noremap')
+call denite#custom#map('insert', '<C-l>', '<denite:do_action:vsplitswitch>', 'noremap')
+
+noremap [pluginprefix]b :<C-u>Denite buffer<CR>
+noremap [pluginprefix]h :<C-u>Denite file_old<CR>
+noremap [pluginprefix]f :<C-u>Denite file_rec<CR>
+noremap [pluginprefix]d :<C-u>Denite directory_rec<CR>
+noremap [pluginprefix]c :<C-u>Denite directory_rec -default-action=cd<CR>
+
 
 " ### Edit ###
 set autoindent
@@ -202,17 +205,25 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
 
+" tabs
 noremap g<C-t> :tabnew<CR>
 noremap <C-Tab> gt
 noremap <C-S-Tab> gT
 
-noremap <C-w>_ :split<CR>
+" split window
+noremap <C-w>- :split<CR>
 noremap <C-w><Bar> :vsplit<CR>
+
+" enter command mode without shift
+noremap ; :
+
+" reload vimrc
+noremap g<C-r> :source $MYVIMRC<CR>
 
 " ### Display ###
 set number
 set cursorline
-" set laststatus=2 " nvim default
+set laststatus=2 " default
 set cmdheight=1 " default
 set ambiwidth=double
 

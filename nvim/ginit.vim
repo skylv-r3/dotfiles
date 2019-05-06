@@ -1,13 +1,14 @@
-" for bug in nvim 0.3.0-0.3.1
-"if @% == ""
-"  bd
-"endif
 
+" GUI
 colorscheme morning
 highlight NonText guifg=LightGray guibg=None
 highlight WhiteSpace guifg=LightGreen guibg=Orange
-"GuiFont! MyricaM M:h12
 GuiFont! 源ノ角ゴシック Code JP M:h10
 GuiTabline 0
 
+" use mouse
 set mouse=a
+
+" reload vimrc (include ginit.vim)
+let $MYGVIMRC = expand(fnamemodify($MYVIMRC, ':h').'/ginit.vim')
+noremap g<C-r> :source $MYVIMRC<CR>:source $MYGVIMRC<CR>
