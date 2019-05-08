@@ -272,3 +272,9 @@ if @% == ""
   cd $desktop
 endif
 
+" diff
+if &diff
+  set diffopt=internal,filler,algorithm:histogram,indent-heuristic
+  set nolist
+endif
+
