@@ -5,7 +5,7 @@ if has('win32')
   let g:python3_host_prog=expand('$HOME/python/neovim3/Scripts/python.exe')
   let s:dein_dir = expand('$HOME/AppData/Local/nvim/dein')
 else
-  let g:python3_host_prog=expand('$HOME/python/neovim3/Scripts/python3')
+  let g:python3_host_prog=expand('$HOME/python/neovim3/bin/python')
   let s:dein_dir = expand('$HOME/.cache/nvim/dein')
 endif
 
