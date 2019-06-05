@@ -129,7 +129,7 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> N     defx#do_action('new_file')
   nnoremap <silent><buffer><expr> M     defx#do_action('new_multiple_files')
   nnoremap <silent><buffer><expr> C     defx#do_action('toggle_columns',
-  \                                       'mark:indent:icon:filename:type:size:time')
+  \ 'mark:indent:icon:filename:type:size:time')
   nnoremap <silent><buffer><expr> S     defx#do_action('toggle_sort', 'time')
   nnoremap <silent><buffer><expr> d     defx#do_action('remove')
   nnoremap <silent><buffer><expr> r     defx#do_action('rename')
@@ -148,6 +148,11 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> <C-l> defx#do_action('redraw')
   nnoremap <silent><buffer><expr> <C-g> defx#do_action('print')
   nnoremap <silent><buffer><expr> cd    defx#do_action('change_vim_cwd')
+  xnoremap <silent><buffer><expr> <CR>  defx#do_action('toggle_select_visual')
+  nnoremap <silent><buffer><expr> <Tab> winnr('$') != 1 ?
+  \ ':<C-u>wincmd w<CR>' :
+  \ ':<C-u>Defx -buffer-name=temp -split=vertical<CR>'
+
 endfunction
 
 noremap <silent> [pluginprefix]<C-z> :Defx <CR>
@@ -164,24 +169,31 @@ let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
 
 " denite
-call denite#custom#map('insert', '<esc>', '<denite:enter_mode:normal>', 'noremap')
-call denite#custom#map('normal', '<esc>', '<denite:quit>', 'noremap')
-call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('normal', '<C-n>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
-call denite#custom#map('normal', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
-call denite#custom#map('normal', '<C-CR>', '<denite:do_action:tabopen>', 'noremap')
-call denite#custom#map('insert', '<C-CR>', '<denite:do_action:tabopen>', 'noremap')
-call denite#custom#map('normal', '<S-CR>', '<denite:do_action:splitswitch>', 'noremap')
-call denite#custom#map('insert', '<S-CR>', '<denite:do_action:splitswitch>', 'noremap')
-call denite#custom#map('normal', '<C-l>', '<denite:do_action:vsplitswitch>', 'noremap')
-call denite#custom#map('insert', '<C-l>', '<denite:do_action:vsplitswitch>', 'noremap')
+autocmd FileType denite call s:denite_my_settings()
+function! s:denite_my_settings() abort
+  nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> d       denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> p       denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q       denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <C-CR>  denite#do_map('do_action', 'tabswitch')
+  nnoremap <silent><buffer><expr> <S-CR>  denite#do_map('do_action', 'splitswitch')
+  nnoremap <silent><buffer><expr> <C-l>   denite#do_map('do_action', 'vsplitswitch')
+  nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
+  nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
+  nnoremap <silent><buffer><expr> <esc>   denite#do_map('quit')
+endfunction
 
-noremap [pluginprefix]b :<C-u>Denite buffer<CR>
-noremap [pluginprefix]h :<C-u>Denite file_old<CR>
-noremap [pluginprefix]f :<C-u>Denite file_rec<CR>
-noremap [pluginprefix]d :<C-u>Denite directory_rec<CR>
-noremap [pluginprefix]c :<C-u>Denite directory_rec -default-action=cd<CR>
+autocmd FileType denite-filter call s:denite_filter_my_settings()
+function! s:denite_filter_my_settings() abort
+  imap <silent><buffer> <esc>   <Plug>(denite_filter_quit)
+endfunction
+
+noremap [pluginprefix]b :<C-u>Denite buffer -split=floating<CR>
+noremap [pluginprefix]h :<C-u>Denite file/old -split=floating<CR>
+noremap [pluginprefix]f :<C-u>Denite file/rec -split=floating<CR>
+noremap [pluginprefix]d :<C-u>Denite directory_rec -split=floating<CR>
+noremap [pluginprefix]c :<C-u>Denite directory_rec -default-action=cd -split=floating<CR>
 
 
 " ### Edit ###
