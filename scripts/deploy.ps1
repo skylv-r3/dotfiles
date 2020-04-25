@@ -35,6 +35,13 @@ if(!(Test-Path $nvimDirPath)){
 
 Deploy-Dotfiles "./nvim" "*.vim" $nvimDirPath
 
+$nvimPythonPluginDirPath = "$nvimDirPath\rplugin\python3"
+if(!(Test-Path ($nvimPythonPluginDirPath))){
+  New-Item -ItemType Directory $nvimPythonPluginDirPath
+}
+
+Deploy-Dotfiles "./nvim/rplugin/python3" "*.py" $nvimPythonPluginDirPath
+
 
 # PowerShell
 $PSProfileDirPath = Split-Path $Profile -Parent
