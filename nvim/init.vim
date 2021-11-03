@@ -1,7 +1,5 @@
 
 if has('win32')
-  set shellslash
-  set clipboard+=unnamedplus
   let g:python3_host_prog=expand('$HOME/python/neovim3/Scripts/python.exe')
   let s:dein_dir = expand('$HOME/AppData/Local/nvim/dein')
 else
@@ -14,34 +12,30 @@ let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 " Add the dein installation directory into runtimepath
 execute 'set runtimepath+=' . s:dein_repo_dir
 
+call dein#begin(s:dein_dir)
 
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
-
-  call dein#add(s:dein_dir)
-  call dein#add('Shougo/deoplete.nvim')
-  call dein#add('Shougo/defx.nvim')
-  if !has('nvim')
-    call dein#add('roxma/nvim-yarp')
-    call dein#add('roxma/vim-hug-neovim-rpc')
-  endif
-
-  call dein#add('vim-airline/vim-airline')
-  call dein#add('vim-airline/vim-airline-themes')
-  call dein#add('machakann/vim-highlightedyank')
-  call dein#add('kana/vim-submode')
-  call dein#add('tpope/vim-surround')
-
-  call dein#add('PProvost/vim-ps1')
-  call dein#add('mattn/emmet-vim')
-  call dein#add('mattn/vim-sl')
-
-  call dein#add('Shougo/deoplete.nvim')
-  call dein#add('Shougo/denite.nvim')
-
-  call dein#end()
-  call dein#save_state()
+call dein#add(s:dein_dir)
+if !has('nvim')
+  call dein#add('roxma/nvim-yarp')
+  call dein#add('roxma/vim-hug-neovim-rpc')
 endif
+
+call dein#add('Shougo/deoplete.nvim')
+call dein#add('Shougo/defx.nvim')
+call dein#add('Shougo/denite.nvim')
+
+call dein#add('vim-airline/vim-airline')
+call dein#add('vim-airline/vim-airline-themes')
+call dein#add('machakann/vim-highlightedyank')
+call dein#add('kana/vim-submode')
+call dein#add('tpope/vim-surround')
+
+call dein#add('PProvost/vim-ps1')
+
+call dein#add('mattn/emmet-vim')
+call dein#add('mattn/vim-sl')
+
+call dein#end()
 
 filetype plugin indent on
 syntax enable
@@ -70,15 +64,16 @@ let g:airline_mode_map = {
   \ 'V'  : 'V-L',
   \ '' : 'V-B',
   \ }
+let g:airline_powerline_fonts = 0
 
 " # Submode
 let g:submode_keep_leaving_key = v:true
-call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
-call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
+call submode#enter_with('winsize', 'n', '', '<C-w>>', '10<C-w>>')
+call submode#enter_with('winsize', 'n', '', '<C-w><', '10<C-w><')
 call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
 call submode#enter_with('winsize', 'n', '', '<C-w>_', '<C-w>-')
-call submode#map('winsize', 'n', '', '>', '<C-w>>')
-call submode#map('winsize', 'n', '', '<', '<C-w><')
+call submode#map('winsize', 'n', '', '>', '10<C-w>>')
+call submode#map('winsize', 'n', '', '<', '10<C-w><')
 call submode#map('winsize', 'n', '', '+', '<C-w>+')
 call submode#map('winsize', 'n', '', '_', '<C-w>-')
 
@@ -276,6 +271,7 @@ set modelines=3
 let mapleader = ","
 
 " Encodings
+set fileencoding=utf-8
 set fileencodings=utf-8,cp932,euc-jp,utf-16le,latin1
 
 " cd Desktop

@@ -40,7 +40,17 @@ if(!(Test-Path ($nvimPythonPluginDirPath))){
   New-Item -ItemType Directory $nvimPythonPluginDirPath
 }
 
-Deploy-Dotfiles "./nvim/rplugin/python3" "*.py" $nvimPythonPluginDirPath
+# goneovimを使う限り不要
+#Deploy-Dotfiles "./nvim/rplugin/python3" "*.py" $nvimPythonPluginDirPath
+
+# goneovim
+$gonvimDirPath = "$HOME\.goneovim"
+
+if(!(Test-Path $gonvimDirPath)){
+  New-Item -ItemType Directory $gonvimDirPath
+}
+
+Deploy-Dotfiles "./goneovim" "settings.toml" $gonvimDirPath
 
 
 # PowerShell
