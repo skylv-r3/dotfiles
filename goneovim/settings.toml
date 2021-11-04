@@ -151,8 +151,9 @@ DisableHorizontalScroll = false
 # Ginitvim = ""
 Ginitvim = '''
 colorscheme slate
-highlight NonText guifg=LightGray guibg=None
+highlight NonText guifg=Gray guibg=None
 highlight WhiteSpace guifg=LightGreen guibg=Orange
+highlight CursorLine gui=underline guibg=NONE
 set guifont=Cascadia\ Mono\ \PL\ SemiLight:h12:l
 set guifontwide=Noto\ Sans\ JP\ Medium:h12
 '''

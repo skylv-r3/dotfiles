@@ -35,6 +35,8 @@ call dein#add('PProvost/vim-ps1')
 call dein#add('mattn/emmet-vim')
 call dein#add('mattn/vim-sl')
 
+call dein#add('momota/cisco.vim')
+
 call dein#end()
 
 filetype plugin indent on
