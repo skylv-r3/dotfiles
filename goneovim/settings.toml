@@ -17,6 +17,7 @@ Gap = -4
 
 ## Specifies the command used to open the file in an external file explorer, etc. The default is ":e".
 # FileOpenCmd = ":e"
+FileOpenCmd = ":tabe"
 
 ## Reverses the direction of scrolling with the mouse wheel.
 # ReversingScrollDirection = false
@@ -77,7 +78,7 @@ CachedDrawing = false
 # Clipboard = true
 
 ## This setting is equivalent to Macmeta in MacVim.
-# Macmeta = true
+# Macmeta = false
 
 ## The input method editor will be automatically disabled when the mode is changed to normal mode.
 ## It may be useful for users who use the input method editor (e.g. East Asian users).
@@ -166,7 +167,7 @@ SmoothMove = true
 ## Specifies the duration of the animation at the smooth cursor. Default is 55ms.
 ## Note that Goneovim uses the specified value as a base value and makes slight adjustments depending on the distance.
 # Duration = ５５
-Duration = 55
+Duration = 40
 
 
 
@@ -191,7 +192,7 @@ Duration = 55
 # [Statusline]
 ## Whether or not to display the external status line
 # Visible = false
-#
+
 ## Options: "textLabel" / "icon" / "background" / "none"
 # ModeIndicatorType = "textLabel"
 
@@ -208,7 +209,7 @@ Duration = 55
 # Right = [ "message", "git", "filetype", "fileformat", "fileencoding", "curpos", "lint" ]
 
 
-## Configure externalized tabline UI#.
+## Configure externalized tabline UI.
 [Tabline]
 ## Whether or not to display the external tabline
 # Visible = true

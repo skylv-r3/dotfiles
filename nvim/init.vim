@@ -120,8 +120,8 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> p     defx#do_action('paste')
   nnoremap <silent><buffer><expr> l     defx#do_action('open')
   nnoremap <silent><buffer><expr> E     defx#do_action('open', 'vsplit')
-  nnoremap <silent><buffer><expr> P     defx#do_action('open', 'pedit')
-  nnoremap <silent><buffer><expr> o     defx#do_action('open_or_close_tree')
+  nnoremap <silent><buffer><expr> P     defx#do_action('preview')
+  nnoremap <silent><buffer><expr> o     defx#do_action('open_tree', 'toggle')
   nnoremap <silent><buffer><expr> K     defx#do_action('new_directory')
   nnoremap <silent><buffer><expr> N     defx#do_action('new_file')
   nnoremap <silent><buffer><expr> M     defx#do_action('new_multiple_files')
@@ -146,16 +146,17 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> <C-g> defx#do_action('print')
   nnoremap <silent><buffer><expr> cd    defx#do_action('change_vim_cwd')
   xnoremap <silent><buffer><expr> <CR>  defx#do_action('toggle_select_visual')
+  xnoremap <silent><buffer><expr> <Space> defx#do_action('toggle_select_visual')
   nnoremap <silent><buffer><expr> <Tab> winnr('$') != 1 ?
   \ ':<C-u>wincmd w<CR>' :
   \ ':<C-u>Defx -buffer-name=temp -split=vertical<CR>'
 
 endfunction
 
-noremap <silent> [pluginprefix]<C-z> :Defx <CR>
-noremap <silent> [pluginprefix]<C-x> :Defx `expand('%:p:h')` -search=`expand('%:p')` <CR>
-noremap <silent> [pluginprefix]<C-v> :Defx -split=vertical -winwidth=50 -direction=topleft <CR>
-noremap <silent> [pluginprefix]<C-c> :Defx -split=vertical -winwidth=50 -direction=topleft
+noremap <silent> [pluginprefix]z :Defx <CR>
+noremap <silent> [pluginprefix]x :Defx `expand('%:p:h')` -search=`expand('%:p')` <CR>
+noremap <silent> [pluginprefix]v :Defx -split=vertical -winwidth=50 -direction=topleft <CR>
+noremap <silent> [pluginprefix]c :Defx -split=vertical -winwidth=50 -direction=topleft
   \                                    `expand('%:p:h')` -search=`expand('%:p')` <CR>
 
 " deoplete
@@ -170,12 +171,12 @@ autocmd FileType denite call s:denite_my_settings()
 function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action')
   nnoremap <silent><buffer><expr> d       denite#do_map('do_action', 'delete')
-  nnoremap <silent><buffer><expr> p       denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> P       denite#do_map('do_action', 'preview')
   nnoremap <silent><buffer><expr> q       denite#do_map('quit')
   nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
   nnoremap <silent><buffer><expr> <C-CR>  denite#do_map('do_action', 'tabswitch')
-  nnoremap <silent><buffer><expr> <S-CR>  denite#do_map('do_action', 'splitswitch')
-  nnoremap <silent><buffer><expr> <C-l>   denite#do_map('do_action', 'vsplitswitch')
+""  nnoremap <silent><buffer><expr> <S-CR>  denite#do_map('do_action', 'splitswitch')
+""  nnoremap <silent><buffer><expr> <C-l>   denite#do_map('do_action', 'vsplitswitch')
   nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
   nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
   nnoremap <silent><buffer><expr> <esc>   denite#do_map('quit')
@@ -183,14 +184,14 @@ endfunction
 
 autocmd FileType denite-filter call s:denite_filter_my_settings()
 function! s:denite_filter_my_settings() abort
-  imap <silent><buffer> <esc>   <Plug>(denite_filter_quit)
+  imap <silent><buffer> <C-o>   <Plug>(denite_filter_quit)
 endfunction
 
 noremap [pluginprefix]b :<C-u>Denite buffer -split=floating<CR>
 noremap [pluginprefix]h :<C-u>Denite file/old -split=floating<CR>
 noremap [pluginprefix]f :<C-u>Denite file/rec -split=floating<CR>
 noremap [pluginprefix]d :<C-u>Denite directory_rec -split=floating<CR>
-noremap [pluginprefix]c :<C-u>Denite directory_rec -default-action=cd -split=floating<CR>
+""noremap [pluginprefix]c :<C-u>Denite directory_rec -default-action=cd -split=floating<CR>
 
 
 " ### Edit ###
@@ -208,8 +209,8 @@ noremap / /\v
 cnoremap s/ s/\v
 cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
-cnoremap <C-n> <Down>
-cnoremap <C-p> <Up>
+cnoremap <expr><C-n> pumvisible() ? "<Right>" : "<Down>"
+cnoremap <expr><C-p> pumvisible() ? "<Left>" : "<Up>"
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
