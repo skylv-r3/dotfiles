@@ -2,8 +2,17 @@
 ## All of the following commented configuration items have default values.
 
 [Editor]
+## If enabled, when the Close button of the application window is clicked,
+## the application will exit without confirmation, even if there are unsaved
+## updates.
+IgnoreSaveConfirmationWithCloseButton = false
+
 ## Makes the application window frameless.
 # BorderlessWindow = false
+
+## Controls whether the title bar is displayed when the borderless 
+## window setting is enabled.
+# HideTitlebar = false
 
 ## Editor minimum window width (>= 400)
 # Width = 800
@@ -11,13 +20,13 @@ Width = 1215
 ## Editor minimum window height (>= 300)
 # Height = 600
 Height = 882
-## Create a small margin on the left and right sides of the application window.
-# Gap = 2
-Gap = -4
-
-## Specifies the command used to open the file in an external file explorer, etc. The default is ":e".
-# FileOpenCmd = ":e"
-FileOpenCmd = ":tabe"
+## Margin adds a margin between the window and the drawn content.
+## This value is 0 by default for Linux and 2 by default for MacOS and Windows.
+# Margin = 0
+Margin = 0
+## Gap create a gap on the left and right sides of the application window.
+# Gap = 0
+Gap = 0
 
 ## Reverses the direction of scrolling with the mouse wheel.
 # ReversingScrollDirection = false
@@ -25,19 +34,35 @@ FileOpenCmd = ":tabe"
 ## Specifies the amount of scrolling by the mouse wheel. The default value is 1.
 # LineToScroll = 1
 
+## MouseScrollingUnit sets the mode of mouse scrolling. 
+## "line" scrolls in lines.
+## "pixel" scrolls in pixels.
+## "smart" scrolls in pixels when the amount of scrolling is small, and
+##         scrolls in lines when the amount of scrolling is large.
+## The default value is "smart" on macos, and "line" on other operating systems.
+# MouseScrollingUnit = "line"
+
 ## This option makes the whole GUI window in semi-transparent.
 ## This setting also implicitly enables the Drawborder setting
 # Transparent = 1.0
 
 ## Launch goneovim with full screen window size.
 # StartFullscreen = false
+## Launch goneovim with maximized window size.
+# StartMaximizedWindow = false
 
-## Editor external font-family, font-size, and linespace.
-## This is the font and linespace settings of the graphical UI as an nvim front end.
-## For example, linespace affects the margins of the external completion popup menu UI.
-## Note that the linespace setting must be the same on the Neovim side. The reason for this
-## is that the default value on the Neovim side is 0, which will be overwritten by the Neovim setting.
-## Of course, these settings can also be changed by setting the guifont and linespace on the Neovim side.
+## Enabling WindowGeometryBasedOnFontmetrics sets the minimum unit of window geometry change 
+## to the width and height values specified by font metrics.
+## When enabled, maximization with the GonvimMaximize command may not work well due to 
+## the combination of screen size and font metrics.
+# WindowGeometryBasedOnFontmetrics = false
+
+## Enable the ability to remember the last window geometry that was displayed
+## and restore it at the next startup.
+RestoreWindowGeometry = false
+
+## Editor external font-family, font-siz.
+## This is the font settings of the graphical UI as an nvim front end.
 ## Fontfamily is
 ## In MacOS, 
 # FontFamily = "Monaco"
@@ -45,13 +70,12 @@ FileOpenCmd = ":tabe"
 # FontFamily = "Consolas"
 ## In Windows
 # FontFamily = "Windows"
-FontFamily = "Cascadia Mono PL SemiLight"
+FontFamily = "Cascadia Mono PL"
 ## Fontsize is
 # FontSize = 12
 FontSize = 12
-## linespace is
-# Linespace = 6
-Linespace = 0
+## letterspace is
+# Letterspace = 0
 
 ## Neovim external UI features
 ## The following is the default value of goneovim.
@@ -66,7 +90,6 @@ Linespace = 0
 ## Goneovim has a cached rendering feature enabled to speed up the process.
 ## If you want to disable it, set it to false
 # CachedDrawing = true
-CachedDrawing = false
 ## You can specify the cache size to be used by the cache rendering feature of goneovim.
 ## The default is 400.
 # CacheSize = 400
@@ -82,8 +105,23 @@ CachedDrawing = false
 
 ## The input method editor will be automatically disabled when the mode is changed to normal mode.
 ## It may be useful for users who use the input method editor (e.g. East Asian users).
-## DisableImeInNormal = false
-DisableImeInNormal = true
+## This option is depricated. Use `ModeEnablingIME`
+# DisableImeInNormal = false
+
+## This option specifies a list of modes in which the IME is to be enabled, and goneovim will enable
+## the IME only in those modes.
+## It may be useful for users who use the input method editor (e.g. East Asian users).
+## e.g. 
+## ModeEnablingIME = ["insert", "cmdline_normal"]
+## The available mode strings:
+##   "normal", "insert", "replace", "visual", "visual_select",
+##    "cmdline_normal", "cmdline_insert", "cmdline_replace", etc.
+# ModeEnablingIME = []
+ModeEnablingIME = ["insert", "cmdline_normal"]
+
+## This option allows you to hide the mouse cursor in the gooneovim window 
+## when you type a key, and to redisplay it when you move the mouse cursor again. 
+# HideMouseWhenTyping = false
 
 ## Draw borders on the GUI side instead of the vertical border and status line that nvim draws.
 # DrawWindowSeparator = false
@@ -99,7 +137,8 @@ DisableImeInNormal = true
 
 ## Animates the scrolling behavior of Neovim when the scroll command is entered.
 # SmoothScroll = false
-SmoothScroll = false
+## Specifies the speed of animation in smooth scrolling.
+# SmoothScrollDuration = 300
 ## Disables horizontal scrolling for smooth scrolling with the touchpad.
 # DisableHorizontalScroll = true
 DisableHorizontalScroll = false
@@ -114,8 +153,15 @@ DisableHorizontalScroll = false
 ## This option works only if `ExtMessages` is enabled.
 # DesktopNotifications = false
 
+## Controls whether mouse events in Neovim are ignored when
+## an application window is clicked while the application window is inactive.
+# IgnoreFirstMouseClickWhenAppInactivated = false
+
 # Display the effect when clicked
 # ClickEffect = false
+
+## Specifies the command used to open the file in an external file explorer, etc. The default is ":e".
+# FileOpenCmd = ":e"
 
 # Pattern that fills the diff background
 # Change the background pattern used for diff display.
@@ -144,6 +190,12 @@ DisableHorizontalScroll = false
 # DiffDeletePattern = 1
 # DiffChangePattern = 1
 
+## Extra Dock menu option in MacOS
+## You can add a menu with your own command options 
+# [Editor.DockmenuActions]
+# hoge = "-u NONE"
+# fuga = "-u NORC"
+
 ## You can write a vimscript to be executed after goneovim starts,
 ## for example to disable the vimscript that Goneovim has embedded internally.
 ## GinitVim = '''
@@ -155,8 +207,9 @@ colorscheme slate
 highlight NonText guifg=Gray guibg=None
 highlight WhiteSpace guifg=LightGreen guibg=Orange
 highlight CursorLine gui=underline guibg=NONE
-set guifont=Cascadia\ Mono\ \PL\ SemiLight:h12:l
-set guifontwide=Noto\ Sans\ JP\ Medium:h12
+set guifont=Cascadia_Mono_PL:h11
+set guifontwide=BIZ_UDゴシック:h11
+set clipboard=unnamedplus
 '''
 
 [Cursor]
@@ -166,9 +219,8 @@ SmoothMove = true
 
 ## Specifies the duration of the animation at the smooth cursor. Default is 55ms.
 ## Note that Goneovim uses the specified value as a base value and makes slight adjustments depending on the distance.
-# Duration = ５５
+# Duration = 55
 Duration = 40
-
 
 
 ## The palette is used as an input UI for externalized command lines and the Fuzzy-Finder feature built into Goneovim.
@@ -226,19 +278,19 @@ Duration = 40
 ## The following options specify whether to display a dedicated column in the popupmenu
 ## to display the long text displayed in the `info` part.
 # ShowDetail = true
- 
+
 ## total number to display item
 # Total = 20
- 
+
 ## width of `menu` column
 # MenuWidth = 400
- 
+
 ## width of `info` column
 # InfoWidth = 1
- 
+
 ## width of `detail` column
 # DetailWidth = 250
- 
+
 ## Show digit number which can select item for popupmenu
 # ShowDigit = true
 
@@ -260,15 +312,6 @@ Visible = true
 
 ## Specifies the width of the minimap.
 # Width = 100
-
-
-## Configure the markdown preview feature
-[Markdown]
-# Disable = false
-
-## Specifying code highlighting styles
-# CodeHlStyle = "github"
-
 
 [SideBar]
 ## Specifies whether to show the external sidebar or not.

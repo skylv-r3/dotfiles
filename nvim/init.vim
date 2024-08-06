@@ -36,6 +36,7 @@ call dein#add('mattn/emmet-vim')
 call dein#add('mattn/vim-sl')
 
 call dein#add('momota/cisco.vim')
+call dein#add('fatih/vim-go')
 
 call dein#end()
 
@@ -230,6 +231,10 @@ noremap ; :
 " reload vimrc
 noremap g<C-r> :source $MYVIMRC<CR>
 
+if has('win32')
+  nmap <C-z> <Nop>
+endif
+
 " ### Display ###
 set number
 set cursorline
@@ -239,6 +244,7 @@ set ambiwidth=double
 
 set list
 set listchars=tab:>_,trail:-,eol:$,extends:},precedes:{,nbsp:+
+colorscheme slate
 highlight NonText ctermfg=LightBlue
 highlight WhiteSpace ctermfg=LightGreen
 
